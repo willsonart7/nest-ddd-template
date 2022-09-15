@@ -4,6 +4,8 @@ import {
   HealthCheck,
   MemoryHealthIndicator,
   DiskHealthIndicator,
+  HealthCheckResult,
+  HealthIndicatorResult,
 } from '@nestjs/terminus';
 
 @Controller('health')
@@ -16,11 +18,13 @@ export class HealthController {
 
   @Get()
   @HealthCheck()
-  check() {
-    return this.health.check([
-      () => this.memory.checkHeap('memory_heap', 150 * 1024 * 1024),
-      () =>
+  check(): Promise<HealthCheckResult> {
+    const result = this.health.check([
+      (): Promise<HealthIndicatorResult> =>
+        this.memory.checkHeap('memory_heap', 150 * 1024 * 1024),
+      (): Promise<HealthIndicatorResult> =>
         this.disk.checkStorage('storage', { path: '/', thresholdPercent: 0.5 }),
     ]);
+    return result;
   }
 }
