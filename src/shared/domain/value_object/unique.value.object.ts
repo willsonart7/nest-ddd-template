@@ -1,4 +1,4 @@
-import { GenerateUuid } from 'src/shared/infrastructure/utils/generate.uuid';
+import { GenerateUuid } from '../../infrastructure/utils/generate.uuid';
 
 export class UniqueValueObject {
   private value: string;

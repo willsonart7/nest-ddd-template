@@ -4,6 +4,9 @@ import { AppService } from './app.service';
 import { HealthModule } from './health/health.module';
 import { ConfigModule } from '@nestjs/config';
 import configuration from './config/configuration';
+import { SharedModule } from './shared/shared.module';
+import { UserModule } from './users/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -11,6 +14,9 @@ import configuration from './config/configuration';
       load: [configuration],
     }),
     HealthModule,
+    SharedModule,
+    UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
