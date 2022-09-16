@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
+import { UserMemoryRepository } from './infrastructure/persistence/user.memory.repository';
 import { UserFinderService } from './user.service';
 
 @Module({
-  providers: [UserFinderService],
+  imports: [],
+  providers: [UserFinderService, UserMemoryRepository],
   exports: [UserFinderService],
 })
 export class UserModule {}
