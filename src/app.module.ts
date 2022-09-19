@@ -7,6 +7,7 @@ import configuration from './config/configuration';
 import { SharedModule } from './shared/shared.module';
 import { UserModule } from './users/user.module';
 import { AuthModule } from './auth/auth.module';
+import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { AuthModule } from './auth/auth.module';
     SharedModule,
     UserModule,
     AuthModule,
+    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

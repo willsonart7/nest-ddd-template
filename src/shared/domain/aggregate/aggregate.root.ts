@@ -1,17 +1,13 @@
 import { DomainEvent } from '../bus/event/domain.event';
-import { UniqueValueObject } from '../value_object/unique.value.object';
-import { Entity } from './entity';
 
-export class AggregateRoot<T> extends Entity<T> {
+export abstract class AggregateRoot {
   private _domainEvents: DomainEvent[] = [];
-
-  get getId(): UniqueValueObject {
-    return this.id;
-  }
 
   get domainEvents(): DomainEvent[] {
     return this._domainEvents;
   }
+
+  abstract toPrimitives(): object;
 
   protected addDomainEvent(domainEvent: DomainEvent): void {
     this._domainEvents.push(domainEvent);

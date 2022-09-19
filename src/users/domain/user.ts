@@ -1,40 +1,49 @@
-import { AggregateRoot } from 'src/shared/domain/aggregate/aggregate.root';
+import { AggregateRoot } from '../../shared/domain/aggregate/aggregate.root';
 import { UserId } from './user.id';
 import { UserEmail } from './user.email';
 import { UserUsername } from './user.username';
 import { UserPassword } from './user.password';
+import { UserCreatedDomainEvent } from './domainEvents/user.created.domain.event';
 
-interface UserProps {
+export interface UserProps {
   id: UserId;
   email: UserEmail;
   username: UserUsername;
   password: UserPassword;
 }
 
-interface UserPrimitiveProps {
+export interface UserPrimitiveProps {
   id: string;
   email: string;
   username: string;
   password?: string;
 }
 
-export class User extends AggregateRoot<UserProps> {
-  public readonly id: UserId;
-  public readonly email: UserEmail;
-  public readonly username: UserUsername;
-  private password: UserPassword;
+export class User extends AggregateRoot {
+  readonly id: UserId;
+  readonly email: UserEmail;
+  readonly username: UserUsername;
+  readonly password: UserPassword;
 
-  private constructor(props: UserProps, id: UserId) {
-    super(props, id);
-
-    this.id = id;
+  private constructor(props: UserProps) {
+    super();
+    this.id = props.id;
     this.email = props.email;
     this.username = props.username;
     this.password = props.password;
   }
 
-  public static create(props: UserProps, id: UserId): User {
-    return new User(props, id);
+  public static create(props: UserProps): User {
+    const user = new User(props);
+    user.addDomainEvent(
+      new UserCreatedDomainEvent({
+        id: props.id.getValue(),
+        email: props.email.name(),
+        username: props.username.name(),
+      }),
+    );
+
+    return user;
   }
 
   public static fromPrimitives(props: UserPrimitiveProps): User {
@@ -43,7 +52,7 @@ export class User extends AggregateRoot<UserProps> {
     const username = UserUsername.create(props.username);
     const password = UserPassword.create(props.password);
 
-    return User.create({ id, email, username, password }, id);
+    return User.create({ id, email, username, password });
   }
 
   public toPrimitives(): UserPrimitiveProps {
