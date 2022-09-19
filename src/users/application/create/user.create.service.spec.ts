@@ -1,6 +1,5 @@
 import { Test } from '@nestjs/testing';
-import { UserMemoryRepository } from 'src/users/infrastructure/persistence/user.memory.repository';
-import { SharedModule } from '../../../shared/shared.module';
+import { UserMemoryRepository } from '../../infrastructure/persistence/user.memory.repository';
 import { UserCreateService } from './user.create.service';
 
 describe('User', () => {
@@ -9,11 +8,11 @@ describe('User', () => {
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
-      imports: [SharedModule],
+      imports: [],
       providers: [
         UserCreateService,
         {
-          provide: UserMemoryRepository,
+          provide: 'IUserMemoryRepository',
           useValue: {
             save: (): void => {
               console.log('Saved');
@@ -24,7 +23,9 @@ describe('User', () => {
     }).compile();
 
     userCreateService = moduleRef.get<UserCreateService>(UserCreateService);
-    userRepository = moduleRef.get<UserMemoryRepository>(UserMemoryRepository);
+    userRepository = moduleRef.get<UserMemoryRepository>(
+      'IUserMemoryRepository',
+    );
   });
 
   describe('create', () => {

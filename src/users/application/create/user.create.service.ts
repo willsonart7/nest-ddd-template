@@ -9,7 +9,7 @@ import { User } from '../../domain/user';
 @Injectable()
 export class UserCreateService {
   constructor(
-    @Inject('UserMemoryRepository')
+    @Inject('IUserMemoryRepository')
     private readonly repository: UserRepository,
   ) {}
 
