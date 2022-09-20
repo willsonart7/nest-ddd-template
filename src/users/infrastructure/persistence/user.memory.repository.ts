@@ -1,4 +1,5 @@
 import { Nullable } from 'src/shared/domain/Nullable';
+import { UserUsername } from 'src/users/domain/user.username';
 import { User } from '../../domain/user';
 import { UserId } from '../../domain/user.id';
 import { UserRepository } from '../../domain/user.repository';
@@ -22,5 +23,11 @@ export class UserMemoryRepository implements UserRepository {
 
   async findAll(): Promise<Nullable<User[]>> {
     return this.users;
+  }
+
+  async findByUsername(username: UserUsername): Promise<Nullable<User>> {
+    return this.users.find(
+      (user: User) => user.username.name() === username.name(),
+    );
   }
 }

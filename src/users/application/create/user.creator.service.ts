@@ -10,9 +10,9 @@ import { EventBus } from '../../../shared/domain/bus/event/event.bus';
 @Injectable()
 export class UserCreatorService {
   constructor(
-    @Inject('UserRepository')
+    @Inject('IUserRepository')
     private readonly repository: UserRepository,
-    @Inject('EventBus')
+    @Inject('IEventBus')
     private readonly eventBus: EventBus,
   ) {}
 

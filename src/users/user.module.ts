@@ -12,11 +12,11 @@ import { UserMemoryRepository } from './infrastructure/persistence/user.memory.r
   imports: [SharedModule],
   providers: [
     {
-      provide: 'UserRepository',
+      provide: 'IUserRepository',
       useValue: new UserMemoryRepository(),
     },
     {
-      provide: 'EventBus',
+      provide: 'IEventBus',
       useClass: EventEmitterBus,
     },
     UserCreatorService,

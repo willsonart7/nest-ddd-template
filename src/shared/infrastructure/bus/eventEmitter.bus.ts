@@ -12,8 +12,15 @@ export class EventEmitterBus implements EventBus {
 
     await Promise.all(
       events.map((event: DomainEvent): boolean =>
-        eventEmitter.emit(event.kind, event),
+        eventEmitter.emit(event.kind, event.toPrimitives()),
       ),
     );
+  }
+
+  async register(
+    listener: string,
+    handler: (args: object) => Promise<void>,
+  ): Promise<void> {
+    this.eventEmitter.on(listener, handler);
   }
 }

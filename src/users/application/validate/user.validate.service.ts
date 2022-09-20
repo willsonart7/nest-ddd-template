@@ -1,7 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { User } from '../../domain/user';
 import { UserRepository } from '../../domain/user.repository';
-import { Nullable } from 'src/shared/domain/Nullable';
+import { Nullable } from '../../../shared/domain/Nullable';
+import { UserUsername } from '../../../users/domain/user.username';
 
 type ValidateReturn = {
   id: string;
@@ -12,7 +13,7 @@ type ValidateReturn = {
 @Injectable()
 export class UserValidateService {
   constructor(
-    @Inject('UserRepository')
+    @Inject('IUserRepository')
     private readonly repository: UserRepository,
   ) {}
 
@@ -20,10 +21,8 @@ export class UserValidateService {
     username: string,
     password: string,
   ): Promise<Nullable<ValidateReturn>> {
-    // FIXME: find by criteria
-    const users: Nullable<User[]> = await this.repository.findAll();
-    const user: Nullable<User> = users.find(
-      (user: User) => user.username.name() === username,
+    const user: Nullable<User> = await this.repository.findByUsername(
+      UserUsername.create(username),
     );
 
     if (!user) return null;

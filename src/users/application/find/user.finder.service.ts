@@ -7,7 +7,7 @@ import { Nullable } from 'src/shared/domain/Nullable';
 @Injectable()
 export class UserFinderService {
   constructor(
-    @Inject('UserRepository')
+    @Inject('IUserRepository')
     private readonly repository: UserRepository,
   ) {}
 

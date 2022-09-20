@@ -13,7 +13,7 @@ describe('User', () => {
     const moduleRef = await Test.createTestingModule({
       providers: [
         {
-          provide: 'UserRepository',
+          provide: 'IUserRepository',
           useValue: {
             save: (): void => {
               return;
@@ -21,7 +21,7 @@ describe('User', () => {
           },
         },
         {
-          provide: 'EventBus',
+          provide: 'IEventBus',
           useValue: {
             publish: (): Promise<void> => {
               return;
@@ -33,8 +33,8 @@ describe('User', () => {
     }).compile();
 
     userCreatorService = moduleRef.get<UserCreatorService>(UserCreatorService);
-    userRepository = moduleRef.get<UserMemoryRepository>('UserRepository');
-    eventEmitterBus = moduleRef.get<EventEmitterBus>('EventBus');
+    userRepository = moduleRef.get<UserMemoryRepository>('IUserRepository');
+    eventEmitterBus = moduleRef.get<EventEmitterBus>('IEventBus');
   });
 
   describe('create', () => {

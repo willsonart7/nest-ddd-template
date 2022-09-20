@@ -15,6 +15,10 @@ describe('AuthController (e2e)', () => {
     await app.init();
   });
 
+  afterEach(async () => {
+    await app.close();
+  });
+
   it('/auth (POST)', async () => {
     const id = 'b5b2e363-f961-4602-b5b8-60943ab602d3';
     const email = 'test@test.com';

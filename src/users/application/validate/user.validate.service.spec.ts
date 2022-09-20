@@ -15,10 +15,10 @@ describe('User', () => {
     const moduleRef = await Test.createTestingModule({
       providers: [
         {
-          provide: 'UserRepository',
+          provide: 'IUserRepository',
           useValue: {
-            findAll: (): User[] => {
-              return [mockUser];
+            findByUsername: (): User => {
+              return mockUser;
             },
           },
         },
@@ -28,19 +28,19 @@ describe('User', () => {
 
     userValidateService =
       moduleRef.get<UserValidateService>(UserValidateService);
-    userRepository = moduleRef.get<UserMemoryRepository>('UserRepository');
+    userRepository = moduleRef.get<UserMemoryRepository>('IUserRepository');
   });
 
   describe('validate', () => {
     it('should be save', async () => {
-      jest.spyOn(userRepository, 'findAll').getMockImplementation();
+      jest.spyOn(userRepository, 'findByUsername').getMockImplementation();
 
       const find = await userValidateService.execute(
         mockUser.username.name(),
         mockUser.password.name(),
       );
 
-      expect(userRepository.findAll).toBeCalled();
+      expect(userRepository.findByUsername).toBeCalled();
       expect(find.id).toEqual(mockUser.id.getValue());
       expect(find.username).toEqual(mockUser.username.name());
     });

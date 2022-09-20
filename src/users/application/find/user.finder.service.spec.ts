@@ -15,7 +15,7 @@ describe('User', () => {
     const moduleRef = await Test.createTestingModule({
       providers: [
         {
-          provide: 'UserRepository',
+          provide: 'IUserRepository',
           useValue: {
             find: (): User => {
               return mockUser;
@@ -27,7 +27,7 @@ describe('User', () => {
     }).compile();
 
     userFinderService = moduleRef.get<UserFinderService>(UserFinderService);
-    userRepository = moduleRef.get<UserMemoryRepository>('UserRepository');
+    userRepository = moduleRef.get<UserMemoryRepository>('IUserRepository');
   });
 
   describe('find', () => {

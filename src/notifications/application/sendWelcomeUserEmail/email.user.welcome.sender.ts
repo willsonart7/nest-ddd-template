@@ -5,12 +5,14 @@ import { WelcomeUserEmail } from '../../domain/email.welcome.user';
 
 export class SendWelcomeUserEmail {
   constructor(
-    @Inject('EmailSender')
+    @Inject('IEmailSender')
     private emailSender: EmailSender,
   ) {}
 
-  async run(userEmailAddress: EmailAddress): Promise<void> {
-    const welcomeUserEmail = new WelcomeUserEmail(userEmailAddress);
+  async run(userEmailAddress: string): Promise<void> {
+    const welcomeUserEmail = new WelcomeUserEmail(
+      new EmailAddress(userEmailAddress),
+    );
     try {
       await this.emailSender.send(welcomeUserEmail);
     } catch (error) {

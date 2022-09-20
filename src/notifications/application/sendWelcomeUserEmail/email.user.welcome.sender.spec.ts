@@ -3,7 +3,6 @@ import { EmailSenderFake } from '../../../notifications/infrastructure/sender/em
 import { EmailSender } from '../../../notifications/domain/email.sender';
 import { UserMother } from '../../../users/domain/__mocks__/domain/user.mother';
 import { SendWelcomeUserEmail } from './email.user.welcome.sender';
-import { EmailAddress } from '../../../notifications/domain/email.address';
 
 describe('Welcome email sender', () => {
   let sendWelcomeUserEmail: SendWelcomeUserEmail;
@@ -13,7 +12,7 @@ describe('Welcome email sender', () => {
     const moduleRef = await Test.createTestingModule({
       providers: [
         {
-          provide: 'EmailSender',
+          provide: 'IEmailSender',
           useValue: {
             send: async (): Promise<void> => {
               return;
@@ -26,7 +25,7 @@ describe('Welcome email sender', () => {
 
     sendWelcomeUserEmail =
       moduleRef.get<SendWelcomeUserEmail>(SendWelcomeUserEmail);
-    emailSender = moduleRef.get<EmailSenderFake>('EmailSender');
+    emailSender = moduleRef.get<EmailSenderFake>('IEmailSender');
   });
 
   describe('send', () => {
@@ -35,7 +34,7 @@ describe('Welcome email sender', () => {
 
       jest.spyOn(emailSender, 'send').getMockImplementation();
 
-      await sendWelcomeUserEmail.run(new EmailAddress(email));
+      await sendWelcomeUserEmail.run(email);
 
       expect(emailSender.send).toBeCalled();
     });
