@@ -12,7 +12,7 @@ describe('User', () => {
       providers: [
         UserCreateService,
         {
-          provide: 'IUserMemoryRepository',
+          provide: 'IUserRepository',
           useValue: {
             save: (): void => {
               console.log('Saved');
@@ -23,9 +23,7 @@ describe('User', () => {
     }).compile();
 
     userCreateService = moduleRef.get<UserCreateService>(UserCreateService);
-    userRepository = moduleRef.get<UserMemoryRepository>(
-      'IUserMemoryRepository',
-    );
+    userRepository = moduleRef.get<UserMemoryRepository>('IUserRepository');
   });
 
   describe('create', () => {

@@ -8,7 +8,7 @@ import { UserFinderService } from './user.service';
   providers: [
     UserFinderService,
     UserCreateService,
-    { provide: 'IUserMemoryRepository', useValue: UserMemoryRepository },
+    { provide: 'IUserRepository', useClass: UserMemoryRepository },
   ],
   exports: [UserFinderService],
 })
