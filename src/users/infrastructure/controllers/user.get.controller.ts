@@ -1,5 +1,5 @@
 import { Controller, UseGuards, Get, Req } from '@nestjs/common';
-import { JwtAuthGuard } from '../../../auth/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../../../auth/infrastructure/guards/jwt-auth.guard';
 
 export interface RequestWithUser extends Request {
   user: { id: string; username: string };
