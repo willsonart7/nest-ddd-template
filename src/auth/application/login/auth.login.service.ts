@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-
-export type Login = { access_token: string };
+import { Login } from '../../domain/auth.login';
 
 @Injectable()
 export class AuthLoginService {

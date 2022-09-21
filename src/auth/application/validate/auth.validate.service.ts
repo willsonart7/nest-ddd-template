@@ -2,8 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { Nullable } from 'src/shared/domain/Nullable';
 import { UserValidateService } from '../../../users/application/validate/user.validate.service';
 
-export type Login = { access_token: string };
-
 @Injectable()
 export class AuthValidateService {
   constructor(private userValidateService: UserValidateService) {}
