@@ -4,7 +4,7 @@ import { EmailSender } from '../../../notifications/domain/email.sender';
 import { UserMother } from '../../../users/domain/__mocks__/domain/user.mother';
 import { SendWelcomeUserEmail } from './email.user.welcome.sender';
 
-describe('Welcome email sender', () => {
+describe('Notifications', () => {
   let sendWelcomeUserEmail: SendWelcomeUserEmail;
   let emailSender: EmailSender;
 
@@ -28,7 +28,7 @@ describe('Welcome email sender', () => {
     emailSender = moduleRef.get<EmailSenderFake>('IEmailSender');
   });
 
-  describe('send', () => {
+  describe('Send welcome user email', () => {
     it('should send', async () => {
       const { email } = UserMother.random().toPrimitives();
 

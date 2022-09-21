@@ -27,7 +27,7 @@ export class UserMother {
       id: UserId.create(props.id),
       email: UserEmail.create(props.email),
       username: UserUsername.create(props.username),
-      password: UserPassword.create(props.password),
+      password: UserPassword.fromPlain(props.password),
     });
   }
 }

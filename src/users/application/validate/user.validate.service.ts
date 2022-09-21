@@ -2,7 +2,8 @@ import { Inject, Injectable } from '@nestjs/common';
 import { User } from '../../domain/user';
 import { UserRepository } from '../../domain/user.repository';
 import { Nullable } from '../../../shared/domain/Nullable';
-import { UserUsername } from '../../../users/domain/user.username';
+import { UserUsername } from '../../domain/user.username';
+import { UserPassword } from '../../domain/user.password';
 
 type ValidateReturn = {
   id: string;
@@ -27,6 +28,7 @@ export class UserValidateService {
 
     if (!user) return null;
 
-    return user.password.name() === password ? user.toPrimitives() : null;
+    const userPassword = UserPassword.fromHashed(user.password.name());
+    return userPassword.compare(password) ? user.toPrimitives() : null;
   }
 }

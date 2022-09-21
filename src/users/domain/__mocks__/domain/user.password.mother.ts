@@ -3,7 +3,7 @@ import { UserPassword } from '../../user.password';
 
 export class UserPasswordMother {
   static create(value: string): UserPassword {
-    return UserPassword.create(value);
+    return UserPassword.fromPlain(value);
   }
 
   static random(): UserPassword {

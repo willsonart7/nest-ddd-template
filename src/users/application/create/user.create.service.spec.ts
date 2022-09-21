@@ -1,11 +1,11 @@
 import { Test } from '@nestjs/testing';
-import { UserCreatorService } from './user.creator.service';
+import { UserCreateService } from './user.create.service';
 import { UserMemoryRepository } from '../../infrastructure/persistence/user.memory.repository';
 import { EventEmitterBus } from '../../../shared/infrastructure/bus/eventEmitter.bus';
-import { UserMother } from '../../../users/domain/__mocks__/domain/user.mother';
+import { UserMother } from '../../domain/__mocks__/domain/user.mother';
 
 describe('User', () => {
-  let userCreatorService: UserCreatorService;
+  let userCreateService: UserCreateService;
   let userRepository: UserMemoryRepository;
   let eventEmitterBus: EventEmitterBus;
 
@@ -28,11 +28,11 @@ describe('User', () => {
             },
           },
         },
-        UserCreatorService,
+        UserCreateService,
       ],
     }).compile();
 
-    userCreatorService = moduleRef.get<UserCreatorService>(UserCreatorService);
+    userCreateService = moduleRef.get<UserCreateService>(UserCreateService);
     userRepository = moduleRef.get<UserMemoryRepository>('IUserRepository');
     eventEmitterBus = moduleRef.get<EventEmitterBus>('IEventBus');
   });
@@ -45,7 +45,7 @@ describe('User', () => {
       jest.spyOn(userRepository, 'save').getMockImplementation();
       jest.spyOn(eventEmitterBus, 'publish').getMockImplementation();
 
-      await userCreatorService.execute(id, email, username, password);
+      await userCreateService.execute(id, email, username, password);
 
       expect(userRepository.save).toBeCalled();
       expect(eventEmitterBus.publish).toBeCalled();

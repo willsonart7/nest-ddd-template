@@ -6,6 +6,7 @@ import { BooleanValueObject } from './domain/value_object/boolean.value.object';
 import { JsonValueObject } from './domain/value_object/json.value.object';
 import { UniqueValueObject } from './domain/value_object/unique.value.object';
 import { EventEmitterBus } from './infrastructure/bus/eventEmitter.bus';
+import { Encrypt } from './infrastructure/utils/encrypt';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { EventEmitterBus } from './infrastructure/bus/eventEmitter.bus';
     BooleanValueObject,
     JsonValueObject,
     UniqueValueObject,
+    Encrypt,
   ],
   exports: [
     EventEmitterBus,
@@ -34,6 +36,7 @@ import { EventEmitterBus } from './infrastructure/bus/eventEmitter.bus';
     BooleanValueObject,
     JsonValueObject,
     UniqueValueObject,
+    Encrypt,
   ],
 })
 export class SharedModule {}

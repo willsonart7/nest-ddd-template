@@ -8,9 +8,16 @@ describe('User', () => {
   let userValidateService: UserValidateService;
   let userRepository: UserMemoryRepository;
   let mockUser: User;
+  let passwordUser: string;
 
   beforeEach(async () => {
-    mockUser = UserMother.random();
+    passwordUser = '12345678';
+    mockUser = UserMother.fromPrimitives({
+      id: '',
+      email: 'test@test.com',
+      username: 'test',
+      password: passwordUser,
+    });
 
     const moduleRef = await Test.createTestingModule({
       providers: [
@@ -34,10 +41,9 @@ describe('User', () => {
   describe('validate', () => {
     it('should be save', async () => {
       jest.spyOn(userRepository, 'findByUsername').getMockImplementation();
-
       const find = await userValidateService.execute(
         mockUser.username.name(),
-        mockUser.password.name(),
+        passwordUser,
       );
 
       expect(userRepository.findByUsername).toBeCalled();

@@ -50,7 +50,7 @@ export class User extends AggregateRoot {
     const id = UserId.create(props.id);
     const email = UserEmail.create(props.email);
     const username = UserUsername.create(props.username);
-    const password = UserPassword.create(props.password);
+    const password = UserPassword.fromPlain(props.password);
 
     return User.create({ id, email, username, password });
   }

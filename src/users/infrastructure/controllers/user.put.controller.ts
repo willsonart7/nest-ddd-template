@@ -7,7 +7,7 @@ import {
   ParseUUIDPipe,
   Put,
 } from '@nestjs/common';
-import { UserCreatorService } from '../../application/create/user.creator.service';
+import { UserCreateService } from '../../application/create/user.create.service';
 import { UserCreateDto } from '../dtos/user.create.dto';
 
 export interface RequestWithUser extends Request {
@@ -16,7 +16,7 @@ export interface RequestWithUser extends Request {
 
 @Controller('user')
 export class UserPutController {
-  constructor(private userCreatorService: UserCreatorService) {}
+  constructor(private userCreatorService: UserCreateService) {}
 
   @Put('/:id')
   async execute(
