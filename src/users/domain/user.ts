@@ -50,16 +50,6 @@ export class User extends AggregateRoot {
     const id = UserId.create(props.id);
     const email = UserEmail.create(props.email);
     const username = UserUsername.create(props.username);
-    const password = UserPassword.fromPlain(props.password);
-
-    return User.create({ id, email, username, password });
-  }
-
-  // instance new User with hased password
-  public static fromPrimitivesSaved(props: UserPrimitiveProps): User {
-    const id = UserId.create(props.id);
-    const email = UserEmail.create(props.email);
-    const username = UserUsername.create(props.username);
     const password = UserPassword.fromHashed(props.password);
 
     return User.create({ id, email, username, password });
@@ -70,7 +60,6 @@ export class User extends AggregateRoot {
       id: this.id.getValue(),
       email: this.email.name(),
       username: this.username.name(),
-      password: this.password.name(),
     };
   }
 }

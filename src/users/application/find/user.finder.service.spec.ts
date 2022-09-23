@@ -3,22 +3,20 @@ import { UserFinderService } from './user.finder.service';
 import { UserMemoryRepository } from '../../infrastructure/persistence/user.memory.repository';
 import { User } from '../../../users/domain/user';
 import { UserMother } from '../../../users/domain/__mocks__/domain/user.mother';
+import { UserNotFound } from '../../domain/user.notFound';
 
 describe('User', () => {
   let userFinderService: UserFinderService;
   let userRepository: UserMemoryRepository;
-  let mockUser: User;
 
   beforeEach(async () => {
-    mockUser = UserMother.random();
-
     const moduleRef = await Test.createTestingModule({
       providers: [
         {
           provide: 'IUserRepository',
           useValue: {
             find: (): User => {
-              return mockUser;
+              return;
             },
           },
         },
@@ -32,13 +30,31 @@ describe('User', () => {
 
   describe('find', () => {
     it('should be find', async () => {
-      jest.spyOn(userRepository, 'find').getMockImplementation();
+      const mockUser: User = UserMother.random();
+      jest.spyOn(userRepository, 'find').mockImplementation(async () => {
+        return mockUser;
+      });
 
-      const find = await userFinderService.execute(mockUser.id.getValue());
+      const user: User = await userFinderService.execute(
+        mockUser.id.getValue(),
+      );
 
       expect(userRepository.find).toBeCalled();
-      expect(find).toBeInstanceOf(User);
-      expect(find.id.getValue()).toEqual(mockUser.id.getValue());
+      expect(user).toBeInstanceOf(User);
+    });
+
+    it('should be error UserNotFound', async () => {
+      const mockUser: User = UserMother.random();
+
+      jest.spyOn(userRepository, 'find').mockImplementation(() => {
+        return null;
+      });
+
+      try {
+        await userFinderService.execute(mockUser.id.getValue());
+      } catch (error) {
+        expect(error).toBeInstanceOf(UserNotFound);
+      }
     });
   });
 });
