@@ -59,7 +59,7 @@ describe('UserController (e2e)', () => {
   });
 
   it('/user/:id (GET)', async () => {
-    const id = 'b5b2e363-f961-4602-b5b8-60943ab602d3';
+    const id = 'b5b2e363-f961-4602-b5b8-60943ab602d1';
 
     const agent = request(app.getHttpServer());
 
