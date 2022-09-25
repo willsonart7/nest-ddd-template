@@ -30,7 +30,7 @@ describe('AuthController (e2e)', () => {
     await agent
       .put(`/user/${id}`)
       .send({ email, username, password })
-      .expect(200);
+      .expect(201);
 
     const login = await agent
       .post('/auth')
@@ -41,9 +41,9 @@ describe('AuthController (e2e)', () => {
   });
 
   it('/auth (GET)', async () => {
-    const id = 'b5b2e363-f961-4602-b5b8-60943ab602d3';
-    const email = 'test@test.com';
-    const username = 'test';
+    const id = 'b5b2e363-f961-4602-b5b8-60943ab602d9';
+    const email = 'test@test2.com';
+    const username = 'test_2';
     const password = '12345678';
 
     const agent = request(app.getHttpServer());
@@ -51,7 +51,7 @@ describe('AuthController (e2e)', () => {
     await agent
       .put(`/user/${id}`)
       .send({ email, username, password })
-      .expect(200);
+      .expect(201);
 
     const login = await agent
       .post('/auth')

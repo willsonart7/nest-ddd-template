@@ -6,19 +6,15 @@ export class UserPassword extends StringValueObject {
     super(value);
   }
 
-  private static create(value: string): UserPassword {
-    this.ensureLengthIsAtLeast8Characters(value);
-    return new UserPassword(value);
-  }
-
   public static fromHashed(hash: string): UserPassword {
-    return this.create(hash);
+    return new UserPassword(hash);
   }
 
   public static fromPlain(plain: string): UserPassword {
-    const hashedValue = Encrypt.hash(plain);
+    this.ensureLengthIsAtLeast8Characters(plain);
 
-    return this.create(hashedValue);
+    const hashedValue = Encrypt.hash(plain);
+    return new UserPassword(hashedValue);
   }
 
   public compare(plain: string): boolean {

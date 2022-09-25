@@ -3,6 +3,7 @@ import { UserCreateService } from './user.create.service';
 import { UserMemoryRepository } from '../../infrastructure/persistence/user.memory.repository';
 import { EventEmitterBus } from '../../../shared/infrastructure/bus/eventEmitter.bus';
 import { UserMother } from '../../domain/__mocks__/domain/user.mother';
+import { UserPasswordMother } from '../../domain/__mocks__/domain/user.password.mother';
 
 describe('User', () => {
   let userCreateService: UserCreateService;
@@ -39,8 +40,8 @@ describe('User', () => {
 
   describe('create', () => {
     it('should be save', async () => {
-      const { id, email, username, password } =
-        UserMother.random().toPrimitives();
+      const { id, email, username } = UserMother.random().toPrimitives();
+      const password = UserPasswordMother.random().name();
 
       jest.spyOn(userRepository, 'save').getMockImplementation();
       jest.spyOn(eventEmitterBus, 'publish').getMockImplementation();

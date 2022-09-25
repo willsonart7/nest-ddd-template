@@ -28,13 +28,13 @@ describe('UserController (e2e)', () => {
     return request(app.getHttpServer())
       .put(`/user/${id}`)
       .send({ email, username, password })
-      .expect(200);
+      .expect(201);
   });
 
-  it('/user (GET)', async () => {
-    const id = 'b5b2e363-f961-4602-b5b8-60943ab602d3';
-    const email = 'test@test.com';
-    const username = 'test';
+  it('/user/test (GET)', async () => {
+    const id = 'b5b2e363-f961-4602-b5b8-60943ab602d8';
+    const email = 'test@test2.com';
+    const username = 'test_2';
     const password = '12345678';
 
     const agent = request(app.getHttpServer());
@@ -42,7 +42,7 @@ describe('UserController (e2e)', () => {
     await agent
       .put(`/user/${id}`)
       .send({ email, username, password })
-      .expect(200);
+      .expect(201);
 
     const login = await agent
       .post('/auth')
@@ -56,5 +56,28 @@ describe('UserController (e2e)', () => {
       .set('Authorization', `Bearer ${access_token}`)
       .expect(200)
       .expect(`Hello, ${username}`);
+  });
+
+  it('/user/:id (GET)', async () => {
+    const id = 'b5b2e363-f961-4602-b5b8-60943ab602d1';
+
+    const agent = request(app.getHttpServer());
+
+    const user = await agent.get(`/user/${id}`).expect(200);
+
+    expect(user.body).toHaveProperty('id');
+    expect(user.body).toHaveProperty('username');
+    expect(user.body).toHaveProperty('email');
+  });
+
+  it('/user/:id (GET) should return UserNotFound error', async () => {
+    // unexisting uuid
+    const id = 'b5b2e363-f961-4602-b5b8-60943ab602d9';
+
+    const agent = request(app.getHttpServer());
+    const user = await agent.get(`/user/${id}`).expect(200);
+
+    expect(user.body).toHaveProperty('message');
+    expect(user.body.message).toBe('User Not Found');
   });
 });
