@@ -1,11 +1,11 @@
-name: 💅 Lint
+name: 🔁 CI
 
 on: push
 
 jobs:
   lint:
     runs-on: ubuntu-latest
-    name: 💅 Lint
+    name: 🔁 CI
     steps:
       - name: 👍 Checkout
         uses: actions/checkout@v2
