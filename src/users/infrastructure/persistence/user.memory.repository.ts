@@ -27,7 +27,7 @@ export class UserMemoryRepository implements UserRepository {
 
   async findByUsername(username: UserUsername): Promise<Nullable<User>> {
     return this.users.find(
-      (user: User) => user.username.name() === username.name(),
+      (user: User) => user.username.getValue() === username.getValue(),
     );
   }
 }

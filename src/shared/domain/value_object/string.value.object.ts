@@ -5,7 +5,7 @@ export class StringValueObject {
     this.value = value;
   }
 
-  public name(): string {
+  public getValue(): string {
     return this.value;
   }
 }

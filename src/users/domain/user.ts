@@ -38,8 +38,8 @@ export class User extends AggregateRoot {
     user.addDomainEvent(
       new UserCreatedDomainEvent({
         id: props.id.getValue(),
-        email: props.email.name(),
-        username: props.username.name(),
+        email: props.email.getValue(),
+        username: props.username.getValue(),
       }),
     );
 
@@ -58,8 +58,8 @@ export class User extends AggregateRoot {
   public toPrimitives(): UserPrimitiveProps {
     return {
       id: this.id.getValue(),
-      email: this.email.name(),
-      username: this.username.name(),
+      email: this.email.getValue(),
+      username: this.username.getValue(),
     };
   }
 }

@@ -42,13 +42,13 @@ describe('User', () => {
     it('should be save', async () => {
       jest.spyOn(userRepository, 'findByUsername').getMockImplementation();
       const find = await userValidateService.execute(
-        mockUser.username.name(),
+        mockUser.username.getValue(),
         passwordUser,
       );
 
       expect(userRepository.findByUsername).toBeCalled();
       expect(find.id).toEqual(mockUser.id.getValue());
-      expect(find.username).toEqual(mockUser.username.name());
+      expect(find.username).toEqual(mockUser.username.getValue());
     });
   });
 });
