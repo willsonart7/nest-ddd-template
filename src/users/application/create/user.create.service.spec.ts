@@ -41,7 +41,7 @@ describe('User', () => {
   describe('create', () => {
     it('should be save', async () => {
       const { id, email, username } = UserMother.random().toPrimitives();
-      const password = UserPasswordMother.random().name();
+      const password = UserPasswordMother.random().getValue();
 
       jest.spyOn(userRepository, 'save').getMockImplementation();
       jest.spyOn(eventEmitterBus, 'publish').getMockImplementation();

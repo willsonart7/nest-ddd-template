@@ -18,7 +18,7 @@ export class UserPassword extends StringValueObject {
   }
 
   public compare(plain: string): boolean {
-    return Encrypt.compare(plain, this.name());
+    return Encrypt.compare(plain, this.getValue());
   }
 
   private static ensureLengthIsAtLeast8Characters(value: string): void {
