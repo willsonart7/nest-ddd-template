@@ -8,12 +8,18 @@ import { SharedModule } from './shared/shared.module';
 import { UserModule } from './users/user.module';
 import { AuthModule } from './auth/auth.module';
 import { NotificationsModule } from './notifications/notifications.module';
+import { MongoDbModule } from './shared/infrastructure/persistence/mongodb/mongo.module';
+import { APP_FILTER } from '@nestjs/core';
+import { AllExceptionsFilter } from './shared/infrastructure/filters/all.exceptions.filter';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       load: [configuration],
+      isGlobal: true,
     }),
+
+    MongoDbModule,
     HealthModule,
     SharedModule,
     UserModule,
@@ -21,6 +27,12 @@ import { NotificationsModule } from './notifications/notifications.module';
     NotificationsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_FILTER,
+      useClass: AllExceptionsFilter,
+    },
+  ],
 })
 export class AppModule {}

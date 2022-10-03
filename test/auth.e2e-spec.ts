@@ -1,7 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from './../src/app.module';
+import { AppModule } from '../src/app.module';
+
+jest.setTimeout(15000);
 
 describe('AuthController (e2e)', () => {
   let app: INestApplication;
@@ -20,9 +22,9 @@ describe('AuthController (e2e)', () => {
   });
 
   it('/auth (POST)', async () => {
-    const id = 'b5b2e363-f961-4602-b5b8-60943ab602d3';
-    const email = 'test@test.com';
-    const username = 'test';
+    const id = '09c9a38e-15da-499d-8d9a-23f1dc98d965';
+    const email = 'username_auth_post@test_app.com';
+    const username = 'username_auth_post';
     const password = '12345678';
 
     const agent = request(app.getHttpServer());
@@ -42,8 +44,8 @@ describe('AuthController (e2e)', () => {
 
   it('/auth (GET)', async () => {
     const id = 'b5b2e363-f961-4602-b5b8-60943ab602d9';
-    const email = 'test@test2.com';
-    const username = 'test_2';
+    const email = 'test@test_app2.com';
+    const username = 'test_app2';
     const password = '12345678';
 
     const agent = request(app.getHttpServer());

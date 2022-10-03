@@ -60,6 +60,7 @@ export class User extends AggregateRoot {
       id: this.id.getValue(),
       email: this.email.getValue(),
       username: this.username.getValue(),
+      password: this.password.getValue(),
     };
   }
 }

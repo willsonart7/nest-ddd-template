@@ -1,7 +1,5 @@
 import {
   Controller,
-  HttpException,
-  HttpStatus,
   HttpCode,
   UseGuards,
   Get,
@@ -29,14 +27,10 @@ export class UserGetController {
   @Get(':id')
   @HttpCode(200)
   async getUser(@Param('id', ParseUUIDPipe) id: string): Promise<object> {
-    try {
-      const UserFound: { id: string; email: string; username: string } = (
-        await this.userFinder.execute(id)
-      ).toPrimitives();
+    const UserFound: { id: string; email: string; username: string } = (
+      await this.userFinder.execute(id)
+    ).toPrimitives();
 
-      return UserFound;
-    } catch (error) {
-      return new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
+    return UserFound;
   }
 }
