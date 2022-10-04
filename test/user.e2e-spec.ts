@@ -3,7 +3,7 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
 
-jest.setTimeout(15000);
+jest.setTimeout(50000);
 
 describe('UserController (e2e)', () => {
   let app: INestApplication;
@@ -47,13 +47,14 @@ describe('UserController (e2e)', () => {
       .send({ username, password })
       .expect(201);
 
-    const { access_token } = login.body;
+    const { access_token } = login.body.response;
 
-    await agent
+    const testRoute = await agent
       .get('/user/test')
       .set('Authorization', `Bearer ${access_token}`)
-      .expect(200)
-      .expect(`Hello, ${username}`);
+      .expect(200);
+
+    expect(testRoute.body.response).toBe(`Hello, ${username}`);
   });
 
   it('/user/:id (GET)', async () => {
@@ -71,9 +72,9 @@ describe('UserController (e2e)', () => {
 
     const user = await agent.get(`/user/${id}`).expect(200);
 
-    expect(user.body).toHaveProperty('id');
-    expect(user.body).toHaveProperty('username');
-    expect(user.body).toHaveProperty('email');
+    expect(user.body.response).toHaveProperty('id');
+    expect(user.body.response).toHaveProperty('username');
+    expect(user.body.response).toHaveProperty('email');
   });
 
   it('/user/:id (GET) should return UserNotFound error', async () => {

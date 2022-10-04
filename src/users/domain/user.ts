@@ -63,4 +63,12 @@ export class User extends AggregateRoot {
       password: this.password.getValue(),
     };
   }
+
+  public toReponse(): UserPrimitiveProps {
+    return {
+      id: this.id.getValue(),
+      email: this.email.getValue(),
+      username: this.username.getValue(),
+    };
+  }
 }
