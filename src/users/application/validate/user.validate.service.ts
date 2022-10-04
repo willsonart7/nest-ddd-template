@@ -29,6 +29,6 @@ export class UserValidateService {
     if (!user) return null;
 
     const userPassword = UserPassword.fromHashed(user.password.getValue());
-    return userPassword.compare(password) ? user.toPrimitives() : null;
+    return userPassword.compare(password) ? user.toReponse() : null;
   }
 }
