@@ -1,3 +1,4 @@
+import { DomainError } from '../../shared/domain/DomainError';
 import { StringValueObject } from '../../shared/domain/value_object/string.value.object';
 
 export class UserEmail extends StringValueObject {
@@ -15,7 +16,7 @@ export class UserEmail extends StringValueObject {
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     if (!regex.test(value)) {
-      throw new Error('Email format is not valid.');
+      throw new DomainError('Email format is not valid.');
     }
   }
 }

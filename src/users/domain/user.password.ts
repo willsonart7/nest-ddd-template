@@ -1,5 +1,8 @@
+import { DomainError } from '../../shared/domain/DomainError';
 import { StringValueObject } from '../../shared/domain/value_object/string.value.object';
 import { Encrypt } from '../../shared/infrastructure/utils/encrypt';
+
+class ShortPassword extends DomainError {}
 
 export class UserPassword extends StringValueObject {
   private constructor(value: string) {
@@ -23,7 +26,7 @@ export class UserPassword extends StringValueObject {
 
   private static ensureLengthIsAtLeast8Characters(value: string): void {
     if (value.length < 8) {
-      throw new Error(
+      throw new ShortPassword(
         `At least 8 characters is required. Found ${value.length} instead`,
       );
     }
