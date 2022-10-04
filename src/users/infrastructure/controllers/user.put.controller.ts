@@ -1,7 +1,5 @@
 import {
   Controller,
-  HttpException,
-  HttpStatus,
   HttpCode,
   Param,
   Body,
@@ -24,16 +22,12 @@ export class UserPutController {
   async execute(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() userCreateDto: UserCreateDto,
-  ): Promise<object> {
-    try {
-      await this.userCreatorService.execute(
-        id,
-        userCreateDto.email,
-        userCreateDto.username,
-        userCreateDto.password,
-      );
-    } catch (error) {
-      return new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
+  ): Promise<void> {
+    await this.userCreatorService.execute(
+      id,
+      userCreateDto.email,
+      userCreateDto.username,
+      userCreateDto.password,
+    );
   }
 }

@@ -2,7 +2,10 @@ import {
   ExceptionFilter,
   Catch,
   ArgumentsHost,
-  HttpStatus,
+  Logger,
+  BadRequestException,
+  UnauthorizedException,
+  RequestTimeoutException,
 } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
 import { DomainError } from '../../domain/DomainError';
@@ -11,33 +14,42 @@ import { DomainError } from '../../domain/DomainError';
 export class AllExceptionsFilter implements ExceptionFilter {
   constructor(private readonly httpAdapterHost: HttpAdapterHost) {}
 
+  private readonly FrameworkErrorClasses = [
+    BadRequestException,
+    UnauthorizedException,
+    RequestTimeoutException,
+  ];
+
   catch(exception: unknown, host: ArgumentsHost): void {
-    console.log('[ERROR]: ', exception);
     const { httpAdapter } = this.httpAdapterHost;
 
     const ctx = host.switchToHttp();
 
-    const isDomainErrorInstance = exception instanceof DomainError;
+    let message = null;
+    let httpStatus = null;
 
-    const httpStatus = isDomainErrorInstance
-      ? 400
-      : HttpStatus.INTERNAL_SERVER_ERROR;
-    const message = isDomainErrorInstance
-      ? exception.message
-      : 'Internal server error';
+    this.FrameworkErrorClasses.forEach((DomainError) => {
+      if (exception instanceof DomainError) {
+        message = exception['response'].message;
+        httpStatus = 400;
+      }
+    });
+
+    if (exception instanceof DomainError) {
+      message = exception.message;
+      httpStatus = 400;
+    }
+
+    if (!message) {
+      Logger.error(`AllExceptionsFilter: ${exception}`);
+      message = 'Internal Server Error';
+      httpStatus = 500;
+    }
 
     const responseBody = {
       success: false,
-      message: message,
+      message,
     };
-
-    const logObject = {
-      error: exception,
-      path: httpAdapter.getRequestUrl(ctx.getRequest()),
-      timestamp: new Date().toISOString(),
-    };
-
-    console.log(logObject);
 
     httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);
   }
