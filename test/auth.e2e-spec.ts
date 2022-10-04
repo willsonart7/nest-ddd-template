@@ -17,10 +17,6 @@ describe('AuthController (e2e)', () => {
     await app.init();
   });
 
-  afterEach(async () => {
-    await app.close();
-  });
-
   it('/auth (POST)', async () => {
     const id = '09c9a38e-15da-499d-8d9a-23f1dc98d965';
     const email = 'username_auth_post@testapp.com';
@@ -29,23 +25,22 @@ describe('AuthController (e2e)', () => {
 
     const agent = request(app.getHttpServer());
 
-    const create = await agent
+    await agent
       .put(`/user/${id}`)
-      .send({ email, username, password });
+      .send({ email, username, password })
+      .expect(201);
 
-    console.log('response', create.body);
-
-    /* const login = await agent
+    const login = await agent
       .post('/auth')
       .send({ username, password })
       .expect(201);
 
-    expect(login.body).toHaveProperty('access_token'); */
+    expect(login.body).toHaveProperty('access_token');
   });
 
   it('/auth (GET)', async () => {
     const id = 'b5b2e363-f961-4602-b5b8-60943ab602d9';
-    const email = 'test@test_app2.com';
+    const email = 'test@testapp2.com';
     const username = 'test_app2';
     const password = '12345678';
 
