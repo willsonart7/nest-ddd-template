@@ -3,7 +3,7 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
 
-jest.setTimeout(15000);
+jest.setTimeout(50000);
 
 describe('AuthController (e2e)', () => {
   let app: INestApplication;
@@ -35,7 +35,7 @@ describe('AuthController (e2e)', () => {
       .send({ username, password })
       .expect(201);
 
-    expect(login.body).toHaveProperty('access_token');
+    expect(login.body.response).toHaveProperty('access_token');
   });
 
   it('/auth (GET)', async () => {
@@ -56,15 +56,15 @@ describe('AuthController (e2e)', () => {
       .send({ username, password })
       .expect(201);
 
-    const { access_token } = login.body;
+    const { access_token } = login.body.response;
 
     const check = await agent
       .get('/auth')
       .set('Authorization', `Bearer ${access_token}`)
       .expect(200);
 
-    expect(check.body).toHaveProperty('id');
-    expect(check.body).toHaveProperty('username');
-    expect(check.body.id).toEqual(id);
+    expect(check.body.response).toHaveProperty('id');
+    expect(check.body.response).toHaveProperty('username');
+    expect(check.body.response.id).toEqual(id);
   });
 });
