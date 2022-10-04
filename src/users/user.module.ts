@@ -6,15 +6,14 @@ import { UserFinderService } from './application/find/user.finder.service';
 import { UserValidateService } from './application/validate/user.validate.service';
 import { UserGetController } from './infrastructure/controllers/user.get.controller';
 import { UserPutController } from './infrastructure/controllers/user.put.controller';
-// import { UserMongoRepository } from './infrastructure/persistence/mongodb/user.mongo.repository';
-import { UserMemoryRepository } from './infrastructure/persistence/user.memory.repository';
+import { UserMongoRepository } from './infrastructure/persistence/mongodb/user.mongo.repository';
 
 @Module({
   imports: [SharedModule],
   providers: [
     {
       provide: 'IUserRepository',
-      useValue: new UserMemoryRepository(),
+      useClass: UserMongoRepository,
     },
     {
       provide: 'IEventBus',

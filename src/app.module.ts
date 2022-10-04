@@ -8,7 +8,7 @@ import { SharedModule } from './shared/shared.module';
 import { UserModule } from './users/user.module';
 import { AuthModule } from './auth/auth.module';
 import { NotificationsModule } from './notifications/notifications.module';
-// import { MongoDbModule } from './shared/infrastructure/persistence/mongodb/mongo.module';
+import { MongoDbModule } from './shared/infrastructure/persistence/mongodb/mongo.module';
 import { APP_FILTER } from '@nestjs/core';
 import { AllExceptionsFilter } from './shared/infrastructure/filters/all.exceptions.filter';
 
@@ -19,7 +19,7 @@ import { AllExceptionsFilter } from './shared/infrastructure/filters/all.excepti
       isGlobal: true,
     }),
 
-    // MongoDbModule,
+    MongoDbModule,
     HealthModule,
     SharedModule,
     UserModule,
