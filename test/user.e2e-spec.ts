@@ -83,20 +83,7 @@ describe('UserController (e2e)', () => {
     const agent = request(app.getHttpServer());
     const user = await agent.get(`/user/${id}`).expect(400);
 
-    console.log(user.body);
-
     expect(user.body).toHaveProperty('message');
     expect(user.body.message).toBe('User Not Found');
   });
-
-  // it('/user/:id (GET) should return Internal error', async () => {
-  //   // unexisting uuid
-  //   const id = 'b5b2e363-f961-4602-b5b8-60943ab602d9';
-
-  //   const agent = request(app.getHttpServer());
-  //   const user = await agent.get(`/user/${id}`).expect(500);
-
-  //   expect(user.body).toHaveProperty('message');
-  //   expect(user.body.message).toBe('User Not Found');
-  // });
 });

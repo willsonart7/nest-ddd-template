@@ -15,8 +15,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 
           return client.db(config.get('mongo.dbName'));
         } catch (e) {
-          console.log('Error connecting to DB', e);
-          throw `Error db connect ${e}`;
+          throw new Error(`Error db connect ${e}`);
         }
       },
       inject: [ConfigService],

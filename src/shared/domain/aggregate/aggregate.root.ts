@@ -1,3 +1,4 @@
+import { Logger } from '@nestjs/common';
 import { DomainEvent } from '../bus/event/domain.event';
 
 export abstract class AggregateRoot {
@@ -21,7 +22,7 @@ export abstract class AggregateRoot {
   private logDomainEventAdded(domainEvent: DomainEvent): void {
     const thisClass = Reflect.getPrototypeOf(this);
     const domainEventClass = Reflect.getPrototypeOf(domainEvent);
-    console.info(
+    Logger.log(
       `[Domain Event Created]:`,
       thisClass.constructor.name,
       '==>',
