@@ -43,13 +43,13 @@ USER node
 ###################
 FROM node:16-alpine As production
 
-WORKDIR WORKDIR /app
+WORKDIR /app
 
 COPY --chown=node:node --from=build /app/node_modules ./node_modules
 COPY --chown=node:node --from=build /app/dist ./dist
 
-ENV PORT=3000
-EXPOSE 3000
+ENV PORT=5000
+EXPOSE 5000
 
 CMD [ "node", "dist/main.js" ]
 
