@@ -6,19 +6,19 @@ import { SendWelcomeUserEmailOnUserRegistered } from './infrastructure/consumer/
 import { EmailSenderFake } from './infrastructure/sender/email.sender.fake';
 
 @Module({
-  imports: [SharedModule],
-  providers: [
-    {
-      provide: 'IEmailSender',
-      useValue: new EmailSenderFake(),
-    },
-    {
-      provide: 'IEventBus',
-      useClass: EventEmitterBus,
-    },
-    SendWelcomeUserEmail,
-    SendWelcomeUserEmailOnUserRegistered,
-  ],
-  exports: [],
+	imports: [SharedModule],
+	providers: [
+		{
+			provide: 'IEmailSender',
+			useValue: new EmailSenderFake(),
+		},
+		{
+			provide: 'IEventBus',
+			useClass: EventEmitterBus,
+		},
+		SendWelcomeUserEmail,
+		SendWelcomeUserEmailOnUserRegistered,
+	],
+	exports: [],
 })
 export class NotificationsModule {}

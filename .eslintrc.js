@@ -23,6 +23,10 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'error',
     "prettier/prettier": [
       "error",
+      {
+        "tabWidth": 2,
+        "useTabs": true
+      },
       {"endOfLine": "auto"}
     ]
   },

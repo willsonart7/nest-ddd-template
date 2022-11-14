@@ -11,20 +11,15 @@ import { AuthGetController } from './infrastructure/controllers/auth.get.control
 import { AuthPostController } from './infrastructure/controllers/auth.post.controller';
 
 @Module({
-  imports: [
-    UserModule,
-    PassportModule,
-    JwtModule.register({
-      secret: jwtConstants.secret,
-      signOptions: { expiresIn: '60s' },
-    }),
-  ],
-  providers: [
-    AuthLoginService,
-    AuthValidateService,
-    LocalStrategy,
-    JwtStrategy,
-  ],
-  controllers: [AuthGetController, AuthPostController],
+	imports: [
+		UserModule,
+		PassportModule,
+		JwtModule.register({
+			secret: jwtConstants.secret,
+			signOptions: { expiresIn: '60s' },
+		}),
+	],
+	providers: [AuthLoginService, AuthValidateService, LocalStrategy, JwtStrategy],
+	controllers: [AuthGetController, AuthPostController],
 })
 export class AuthModule {}

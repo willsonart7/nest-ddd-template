@@ -9,34 +9,34 @@ import { EventEmitterBus } from './infrastructure/bus/eventEmitter.bus';
 import { Encrypt } from './infrastructure/utils/encrypt';
 
 @Module({
-  imports: [
-    EventEmitterModule.forRoot({
-      wildcard: false,
-      delimiter: '.',
-      newListener: false,
-      removeListener: false,
-      maxListeners: 10,
-      verboseMemoryLeak: false,
-      ignoreErrors: false,
-    }),
-  ],
-  providers: [
-    EventEmitterBus,
-    StringValueObject,
-    IntValueObject,
-    BooleanValueObject,
-    JsonValueObject,
-    UniqueValueObject,
-    Encrypt,
-  ],
-  exports: [
-    EventEmitterBus,
-    StringValueObject,
-    IntValueObject,
-    BooleanValueObject,
-    JsonValueObject,
-    UniqueValueObject,
-    Encrypt,
-  ],
+	imports: [
+		EventEmitterModule.forRoot({
+			wildcard: false,
+			delimiter: '.',
+			newListener: false,
+			removeListener: false,
+			maxListeners: 10,
+			verboseMemoryLeak: false,
+			ignoreErrors: false,
+		}),
+	],
+	providers: [
+		EventEmitterBus,
+		StringValueObject,
+		IntValueObject,
+		BooleanValueObject,
+		JsonValueObject,
+		UniqueValueObject,
+		Encrypt,
+	],
+	exports: [
+		EventEmitterBus,
+		StringValueObject,
+		IntValueObject,
+		BooleanValueObject,
+		JsonValueObject,
+		UniqueValueObject,
+		Encrypt,
+	],
 })
 export class SharedModule {}

@@ -1,56 +1,52 @@
 import {
-  ExceptionFilter,
-  Catch,
-  ArgumentsHost,
-  Logger,
-  BadRequestException,
-  UnauthorizedException,
-  RequestTimeoutException,
+	ExceptionFilter,
+	Catch,
+	ArgumentsHost,
+	Logger,
+	BadRequestException,
+	UnauthorizedException,
+	RequestTimeoutException,
 } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
 import { DomainError } from '../../domain/DomainError';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
-  constructor(private readonly httpAdapterHost: HttpAdapterHost) {}
+	constructor(private readonly httpAdapterHost: HttpAdapterHost) {}
 
-  private readonly FrameworkErrorClasses = [
-    BadRequestException,
-    UnauthorizedException,
-    RequestTimeoutException,
-  ];
+	private readonly FrameworkErrorClasses = [BadRequestException, UnauthorizedException, RequestTimeoutException];
 
-  catch(exception: unknown, host: ArgumentsHost): void {
-    const { httpAdapter } = this.httpAdapterHost;
+	catch(exception: unknown, host: ArgumentsHost): void {
+		const { httpAdapter } = this.httpAdapterHost;
 
-    const ctx = host.switchToHttp();
+		const ctx = host.switchToHttp();
 
-    let message = null;
-    let httpStatus = null;
+		let message = null;
+		let httpStatus = null;
 
-    this.FrameworkErrorClasses.forEach((DomainError) => {
-      if (exception instanceof DomainError) {
-        message = exception['response'].message;
-        httpStatus = 400;
-      }
-    });
+		this.FrameworkErrorClasses.forEach((DomainError) => {
+			if (exception instanceof DomainError) {
+				message = exception['response'].message;
+				httpStatus = 400;
+			}
+		});
 
-    if (exception instanceof DomainError) {
-      message = exception.message;
-      httpStatus = 400;
-    }
+		if (exception instanceof DomainError) {
+			message = exception.message;
+			httpStatus = 400;
+		}
 
-    if (!message) {
-      Logger.error(`AllExceptionsFilter: ${exception}`);
-      message = 'Internal Server Error';
-      httpStatus = 500;
-    }
+		if (!message) {
+			Logger.error(`AllExceptionsFilter: ${exception}`);
+			message = 'Internal Server Error';
+			httpStatus = 500;
+		}
 
-    const responseBody = {
-      success: false,
-      message,
-    };
+		const responseBody = {
+			success: false,
+			message,
+		};
 
-    httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);
-  }
+		httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);
+	}
 }

@@ -5,22 +5,15 @@ import { EventBus } from '../../../shared/domain/bus/event/event.bus';
 
 @Injectable()
 export class EventEmitterBus implements EventBus {
-  constructor(private eventEmitter: EventEmitter2) {}
+	constructor(private eventEmitter: EventEmitter2) {}
 
-  async publish(events: DomainEvent[]): Promise<void> {
-    const { eventEmitter } = this;
+	async publish(events: DomainEvent[]): Promise<void> {
+		const { eventEmitter } = this;
 
-    await Promise.all(
-      events.map((event: DomainEvent): boolean =>
-        eventEmitter.emit(event.kind, event.toPrimitives()),
-      ),
-    );
-  }
+		await Promise.all(events.map((event: DomainEvent): boolean => eventEmitter.emit(event.kind, event.toPrimitives())));
+	}
 
-  async register(
-    listener: string,
-    handler: (args: object) => Promise<void>,
-  ): Promise<void> {
-    this.eventEmitter.on(listener, handler);
-  }
+	async register(listener: string, handler: (args: object) => Promise<void>): Promise<void> {
+		this.eventEmitter.on(listener, handler);
+	}
 }

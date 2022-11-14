@@ -8,15 +8,15 @@ export type UserValidate = { id: string; username: string };
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor() {
-    super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      ignoreExpiration: false,
-      secretOrKey: jwtConstants.secret,
-    });
-  }
+	constructor() {
+		super({
+			jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+			ignoreExpiration: false,
+			secretOrKey: jwtConstants.secret,
+		});
+	}
 
-  async validate(payload: UserPayload): Promise<UserValidate> {
-    return { id: payload.sub, username: payload.username };
-  }
+	async validate(payload: UserPayload): Promise<UserValidate> {
+		return { id: payload.sub, username: payload.username };
+	}
 }

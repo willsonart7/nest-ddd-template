@@ -6,29 +6,23 @@ import { UserUsername } from '../../domain/user.username';
 import { UserPassword } from '../../domain/user.password';
 
 type ValidateReturn = {
-  id: string;
-  username: string;
-  email: string;
+	id: string;
+	username: string;
+	email: string;
 };
 
 @Injectable()
 export class UserValidateService {
-  constructor(
-    @Inject('IUserRepository')
-    private readonly repository: UserRepository,
-  ) {}
+	constructor(@Inject('IUserRepository') private readonly repository: UserRepository) {}
 
-  async execute(
-    username: string,
-    password: string,
-  ): Promise<Nullable<ValidateReturn>> {
-    const user: Nullable<User> = await this.repository.findByUsername(
-      UserUsername.create(username),
-    );
+	async execute(username: string, password: string): Promise<Nullable<ValidateReturn>> {
+		const user: Nullable<User> = await this.repository.findByUsername(
+			UserUsername.create(username),
+		);
 
-    if (!user) return null;
+		if (!user) return null;
 
-    const userPassword = UserPassword.fromHashed(user.password.getValue());
-    return userPassword.compare(password) ? user.toReponse() : null;
-  }
+		const userPassword = UserPassword.fromHashed(user.password.getValue());
+		return userPassword.compare(password) ? user.toReponse() : null;
+	}
 }
