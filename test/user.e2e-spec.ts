@@ -23,7 +23,10 @@ describe('UserController (e2e)', () => {
 		const username = 'test';
 		const password = '12345678';
 
-		return request(app.getHttpServer()).put(`/user/${id}`).send({ email, username, password }).expect(201);
+		return request(app.getHttpServer())
+			.put(`/user/${id}`)
+			.send({ email, username, password })
+			.expect(201);
 	});
 
 	it('/user/test (GET)', async () => {
@@ -40,7 +43,10 @@ describe('UserController (e2e)', () => {
 
 		const { access_token } = login.body.response;
 
-		const testRoute = await agent.get('/user/test').set('Authorization', `Bearer ${access_token}`).expect(200);
+		const testRoute = await agent
+			.get('/user/test')
+			.set('Authorization', `Bearer ${access_token}`)
+			.expect(200);
 
 		expect(testRoute.body.response).toBe(`Hello, ${username}`);
 	});

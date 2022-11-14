@@ -46,7 +46,10 @@ describe('AuthController (e2e)', () => {
 
 		const { access_token } = login.body.response;
 
-		const check = await agent.get('/auth').set('Authorization', `Bearer ${access_token}`).expect(200);
+		const check = await agent
+			.get('/auth')
+			.set('Authorization', `Bearer ${access_token}`)
+			.expect(200);
 
 		expect(check.body.response).toHaveProperty('id');
 		expect(check.body.response).toHaveProperty('username');
