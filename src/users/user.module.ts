@@ -9,21 +9,21 @@ import { UserPutController } from './infrastructure/controllers/user.put.control
 import { UserMongoRepository } from './infrastructure/persistence/mongodb/user.mongo.repository';
 
 @Module({
-  imports: [SharedModule],
-  providers: [
-    {
-      provide: 'IUserRepository',
-      useClass: UserMongoRepository,
-    },
-    {
-      provide: 'IEventBus',
-      useClass: EventEmitterBus,
-    },
-    UserCreateService,
-    UserFinderService,
-    UserValidateService,
-  ],
-  exports: [UserValidateService],
-  controllers: [UserPutController, UserGetController],
+	imports: [SharedModule],
+	providers: [
+		{
+			provide: 'IUserRepository',
+			useClass: UserMongoRepository,
+		},
+		{
+			provide: 'IEventBus',
+			useClass: EventEmitterBus,
+		},
+		UserCreateService,
+		UserFinderService,
+		UserValidateService,
+	],
+	exports: [UserValidateService],
+	controllers: [UserPutController, UserGetController],
 })
 export class UserModule {}

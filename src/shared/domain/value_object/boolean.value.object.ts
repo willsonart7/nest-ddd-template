@@ -1,11 +1,11 @@
 export class BooleanValueObject {
-  protected value: boolean;
+	protected value: boolean;
 
-  constructor(value: boolean) {
-    this.value = value;
-  }
+	constructor(value: boolean) {
+		this.value = value;
+	}
 
-  public getValue(): boolean {
-    return this.value;
-  }
+	public getValue(): boolean {
+		return this.value;
+	}
 }

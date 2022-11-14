@@ -5,19 +5,16 @@ import { AuthValidateService } from '../../application/validate/auth.validate.se
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
-  constructor(private authService: AuthValidateService) {
-    super();
-  }
+	constructor(private authService: AuthValidateService) {
+		super();
+	}
 
-  async validate(
-    username: string,
-    password: string,
-  ): Promise<object | undefined> {
-    const user = await this.authService.validateUser(username, password);
-    if (!user) {
-      throw new UnauthorizedException();
-    }
+	async validate(username: string, password: string): Promise<object | undefined> {
+		const user = await this.authService.validateUser(username, password);
+		if (!user) {
+			throw new UnauthorizedException();
+		}
 
-    return user;
-  }
+		return user;
+	}
 }

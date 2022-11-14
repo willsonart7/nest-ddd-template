@@ -1,3 +1,3 @@
 export abstract class DomainEventSubscriber<T> {
-  abstract consumer(event: T): void;
+	abstract consumer(event: T): void;
 }

@@ -13,26 +13,26 @@ import { APP_FILTER } from '@nestjs/core';
 import { AllExceptionsFilter } from './shared/infrastructure/filters/all.exceptions.filter';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({
-      load: [configuration],
-      isGlobal: true,
-    }),
+	imports: [
+		ConfigModule.forRoot({
+			load: [configuration],
+			isGlobal: true,
+		}),
 
-    MongoDbModule,
-    HealthModule,
-    SharedModule,
-    UserModule,
-    AuthModule,
-    NotificationsModule,
-  ],
-  controllers: [AppController],
-  providers: [
-    AppService,
-    {
-      provide: APP_FILTER,
-      useClass: AllExceptionsFilter,
-    },
-  ],
+		MongoDbModule,
+		HealthModule,
+		SharedModule,
+		UserModule,
+		AuthModule,
+		NotificationsModule,
+	],
+	controllers: [AppController],
+	providers: [
+		AppService,
+		{
+			provide: APP_FILTER,
+			useClass: AllExceptionsFilter,
+		},
+	],
 })
 export class AppModule {}
