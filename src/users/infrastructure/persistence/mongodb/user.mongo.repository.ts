@@ -18,11 +18,7 @@ export class UserMongoRepository implements UserRepository {
 	async save(user: User): Promise<void> {
 		await this.db
 			.collection(this.collectionName())
-			.updateOne(
-				{ id: user.id.getValue() },
-				{ $set: { ...user.toPrimitives() } },
-				{ upsert: true },
-			);
+			.updateOne({ id: user.id.getValue() }, { $set: { ...user.toPrimitives() } }, { upsert: true });
 	}
 
 	async find(id: UserId): Promise<Nullable<User>> {
@@ -36,10 +32,7 @@ export class UserMongoRepository implements UserRepository {
 	}
 
 	async findAll(): Promise<Nullable<User[]>> {
-		const users = (await this.db
-			.collection(this.collectionName())
-			.find({})
-			.toArray()) as UserMongo[];
+		const users = (await this.db.collection(this.collectionName()).find({}).toArray()) as UserMongo[];
 
 		return users.map((user: UserMongo) => User.fromPrimitives({ ...user }));
 	}

@@ -16,9 +16,7 @@ export class UserValidateService {
 	constructor(@Inject('IUserRepository') private readonly repository: UserRepository) {}
 
 	async execute(username: string, password: string): Promise<Nullable<ValidateReturn>> {
-		const user: Nullable<User> = await this.repository.findByUsername(
-			UserUsername.create(username),
-		);
+		const user: Nullable<User> = await this.repository.findByUsername(UserUsername.create(username));
 
 		if (!user) return null;
 

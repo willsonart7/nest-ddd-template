@@ -22,9 +22,7 @@ export class UserGetController {
 	@HttpCode(200)
 	@ControllerResponse()
 	async getUser(@Param('id', ParseUUIDPipe) id: string): Promise<object> {
-		const UserFound: { id: string; email: string; username: string } = (
-			await this.userFinder.execute(id)
-		).toReponse();
+		const UserFound: { id: string; email: string; username: string } = (await this.userFinder.execute(id)).toReponse();
 
 		return UserFound;
 	}

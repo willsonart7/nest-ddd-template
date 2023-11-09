@@ -14,15 +14,7 @@ export class UserPutController {
 	@Put('/:id')
 	@HttpCode(201)
 	@ControllerResponse('User created')
-	async execute(
-		@Param('id', ParseUUIDPipe) id: string,
-		@Body() userCreateDto: UserCreateDto,
-	): Promise<void> {
-		await this.userCreatorService.execute(
-			id,
-			userCreateDto.email,
-			userCreateDto.username,
-			userCreateDto.password,
-		);
+	async execute(@Param('id', ParseUUIDPipe) id: string, @Body() userCreateDto: UserCreateDto): Promise<void> {
+		await this.userCreatorService.execute(id, userCreateDto.email, userCreateDto.username, userCreateDto.password);
 	}
 }

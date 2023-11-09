@@ -24,9 +24,6 @@ describe('AppController (e2e)', () => {
 	it('/ (GET)', () => {
 		const env = 'development';
 
-		return request(app.getHttpServer())
-			.get('/')
-			.expect(200)
-			.expect(`Hello World. this is running in ${env} mode`);
+		return request(app.getHttpServer()).get('/').expect(200).expect(`Hello World. this is running in ${env} mode`);
 	});
 });
