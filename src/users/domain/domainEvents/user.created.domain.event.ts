@@ -1,56 +1,36 @@
 import { DomainEvent } from '../../../shared/domain/bus/event/domain.event';
-
-type UserCreatedBody = {
-	readonly id: string;
-	readonly email: string;
-	readonly username: string;
-};
+import { User, UserPrimitiveProps } from '../user';
 
 export class UserCreatedDomainEvent extends DomainEvent {
 	static readonly EVENT_NAME = 'user.created';
 
-	readonly email: string;
-	readonly username: string;
+	private readonly user: User;
 
-	constructor({
-		id,
-		email,
-		username,
-		eventId,
-		occurredOn,
-	}: {
-		id: string;
-		email: string;
-		username: string;
-		eventId?: string;
-		occurredOn?: string;
-	}) {
+	constructor({ id, user, eventId, occurredOn }: { id: string; user: User; eventId?: string; occurredOn?: string }) {
 		super(UserCreatedDomainEvent.EVENT_NAME, id, eventId, occurredOn);
-		this.email = email;
-		this.username = username;
+		this.user = user;
 	}
 
-	public toPrimitives(): object {
-		const { aggregateId, email, username } = this;
-
+	public toPrimitives(): { eventName: string; id: string; payload: UserPrimitiveProps } {
+		const { aggregateId, user } = this;
 		return {
 			eventName: UserCreatedDomainEvent.EVENT_NAME,
 			id: aggregateId,
-			email,
-			username,
+			payload: {
+				...user.toPrimitives(),
+			},
 		};
 	}
 
 	public static fromPrimitives(
 		aggregateId: string,
-		payload: UserCreatedBody,
+		payload: UserPrimitiveProps,
 		eventId: string,
 		occurredOn: string,
 	): DomainEvent {
 		return new UserCreatedDomainEvent({
 			id: aggregateId,
-			email: payload.email,
-			username: payload.username,
+			user: User.fromPrimitives(payload),
 			eventId,
 			occurredOn,
 		});
