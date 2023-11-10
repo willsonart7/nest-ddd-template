@@ -35,7 +35,7 @@ describe('User', () => {
 				return mockUser;
 			});
 
-			const user: User = await userFinderService.execute(mockUser.id.getValue());
+			const user: User = await userFinderService.execute(mockUser.getId());
 
 			expect(userRepository.find).toBeCalled();
 			expect(user).toBeInstanceOf(User);
@@ -49,7 +49,7 @@ describe('User', () => {
 			});
 
 			try {
-				await userFinderService.execute(mockUser.id.getValue());
+				await userFinderService.execute(mockUser.getId());
 			} catch (error) {
 				expect(error).toBeInstanceOf(UserNotFound);
 			}

@@ -19,11 +19,17 @@ export interface UserPrimitiveProps {
 	password?: string;
 }
 
+export interface UserResponseProps {
+	id: string;
+	email: string;
+	username: string;
+}
+
 export class User extends AggregateRoot {
-	readonly id: UserId;
-	readonly email: UserEmail;
-	readonly username: UserUsername;
-	readonly password: UserPassword;
+	private readonly id: UserId;
+	private readonly email: UserEmail;
+	private readonly username: UserUsername;
+	private readonly password: UserPassword;
 
 	private constructor(props: UserProps) {
 		super();
@@ -37,9 +43,10 @@ export class User extends AggregateRoot {
 		const user = new User(props);
 		user.addDomainEvent(
 			new UserCreatedDomainEvent({
-				id: props.id.getValue(),
-				email: props.email.getValue(),
-				username: props.username.getValue(),
+				id: user.id.getValue(),
+				user,
+				eventId: user.id.getValue(),
+				occurredOn: new Date().toISOString(),
 			}),
 		);
 
@@ -55,6 +62,26 @@ export class User extends AggregateRoot {
 		return User.create({ id, email, username, password });
 	}
 
+	public getId(): string {
+		return this.id.getValue();
+	}
+
+	public getEmail(): string {
+		return this.email.getValue();
+	}
+
+	public getUsername(): string {
+		return this.username.getValue();
+	}
+
+	public getPassword(): string {
+		return this.password.getValue();
+	}
+
+	public comparePassword(plain: string): boolean {
+		return this.password.compare(plain);
+	}
+
 	public toPrimitives(): UserPrimitiveProps {
 		return {
 			id: this.id.getValue(),
@@ -64,7 +91,7 @@ export class User extends AggregateRoot {
 		};
 	}
 
-	public toReponse(): UserPrimitiveProps {
+	public toReponse(): UserResponseProps {
 		return {
 			id: this.id.getValue(),
 			email: this.email.getValue(),
